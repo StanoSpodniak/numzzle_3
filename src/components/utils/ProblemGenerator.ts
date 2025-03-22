@@ -7,10 +7,16 @@ export const getMathProblem = (): {
     result: number;
 } => {
     const operators1 = ["+", "-", "*", "/"];
-    const operators2 = ["+", "-", "*"];
+    const operators2 = ["+", "-"];
 
     const operator1 = operators1[Math.floor(Math.random() * operators1.length)];
-    const operator2 = operators2[Math.floor(Math.random() * operators2.length)];
+    let operator2 = "+";
+
+    if (operator1 === "*" || operator1 === "/") {
+        operator2 = operators2[Math.floor(Math.random() * operators2.length)];
+    } else {
+        operator2 = operators1[Math.floor(Math.random() * operators2.length)];
+    }
 
     const num1 = Math.floor(Math.random() * 21);
     const num2 = Math.floor(Math.random() * 21);

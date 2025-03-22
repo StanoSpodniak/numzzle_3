@@ -27,20 +27,30 @@
     font-size: 30px;
 }
 
-.numberButton.selected {
-    border: 2px solid black;
-    color: black;
-    font-weight: 600;
-}
-
-.numberButton {
+.button {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 80px;
     height: 80px;
     background-color: white;
-    border: 2px solid grey;
-    border-radius: 10px;
+    border: 2px solid lightgrey;
+    border-radius: 6px;
     font-size: 30px;
+}
+
+.green {
+    color: #00ff00;
+    border: 2px solid #00ff00;
+}
+
+.red {
+    color: #ff0000;
+    border: 2px solid #ff0000;
+}
+
+.black {
+    color: black;
+    border: 2px solid black;
+    font-weight: 600;
 }

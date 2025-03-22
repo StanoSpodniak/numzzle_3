@@ -4,8 +4,8 @@ import { getMathProblem, shuffleArray } from "./utils/ProblemGenerator";
 
 //check Dev.to
 //https://kadam.net/en/webmaster - ads
-//add functionality check if solution is correct - handle check
 //add give up functionality
+//add new game functionality give up button will change to new game button
 
 function Game() {
     const [problems, setProblems] = useState<
@@ -19,8 +19,84 @@ function Game() {
         }>
     >([]);
     const [allNumbers, setAllNumbers] = useState<number[]>([]);
-
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+    const [buttons, setButtons] = useState([
+        {
+            id: 1,
+            status: "neutral" as
+                | "correct"
+                | "incorrect"
+                | "neutral"
+                | "clicked",
+        },
+        {
+            id: 2,
+            status: "neutral" as
+                | "correct"
+                | "incorrect"
+                | "neutral"
+                | "clicked",
+        },
+        {
+            id: 3,
+            status: "neutral" as
+                | "correct"
+                | "incorrect"
+                | "neutral"
+                | "clicked",
+        },
+        {
+            id: 4,
+            status: "neutral" as
+                | "correct"
+                | "incorrect"
+                | "neutral"
+                | "clicked",
+        },
+        {
+            id: 5,
+            status: "neutral" as
+                | "correct"
+                | "incorrect"
+                | "neutral"
+                | "clicked",
+        },
+        {
+            id: 6,
+            status: "neutral" as
+                | "correct"
+                | "incorrect"
+                | "neutral"
+                | "clicked",
+        },
+        {
+            id: 7,
+            status: "neutral" as
+                | "correct"
+                | "incorrect"
+                | "neutral"
+                | "clicked",
+        },
+        {
+            id: 8,
+            status: "neutral" as
+                | "correct"
+                | "incorrect"
+                | "neutral"
+                | "clicked",
+        },
+        {
+            id: 9,
+            status: "neutral" as
+                | "correct"
+                | "incorrect"
+                | "neutral"
+                | "clicked",
+        },
+    ]);
+
+    const [isSolutionVisible, setIsSolutionVisible] = useState(false);
 
     // Generate random math problem when the component is mounted
     useEffect(() => {
@@ -53,20 +129,38 @@ function Game() {
         if (selectedIndex === null) {
             // If no number is selected, set the first one as selected
             setSelectedIndex(index);
+
+            // Highlight selected number
+            const newButtons = [...buttons];
+            newButtons[index].status = "clicked";
+            setButtons(newButtons);
         } else {
             // Swap the numbers when two indices are selected
             const newNumbers = [...allNumbers];
             const temp = newNumbers[selectedIndex];
             newNumbers[selectedIndex] = newNumbers[index];
             newNumbers[index] = temp;
+
+            // Highlight second selected number
+            const newButtons = [...buttons];
+            newButtons[index].status = "clicked";
+            setButtons(newButtons);
+
             setAllNumbers(newNumbers);
             setSelectedIndex(null); // Reset selected index after swap
+
+            // Undo selected number highlight
+            const resetButtons = [...buttons];
+            setTimeout(() => {
+                resetButtons.forEach((button) => {
+                    button.status = "neutral";
+                });
+                setButtons(resetButtons);
+            }, 250);
         }
     };
 
     const handleCheck = () => {
-        let correct = true;
-
         const firstSolution = problems[0].result;
         const firstResult = eval(
             allNumbers[0] +
@@ -85,7 +179,7 @@ function Game() {
                 allNumbers[5]
         );
 
-        const thirdSolution = problems[1].result;
+        const thirdSolution = problems[2].result;
         const thirdResult = eval(
             allNumbers[6] +
                 problems[2].operator1 +
@@ -94,21 +188,60 @@ function Game() {
                 allNumbers[8]
         );
 
-        if (
-            firstResult === firstSolution ||
-            secondResult === secondSolution ||
-            thirdResult === thirdSolution
-        ) {
-            correct = true;
+        const newButtons = [...buttons];
+
+        if (firstResult === firstSolution) {
+            newButtons[0].status = "correct";
+            newButtons[1].status = "correct";
+            newButtons[2].status = "correct";
         } else {
-            correct = false;
+            newButtons[0].status = "incorrect";
+            newButtons[1].status = "incorrect";
+            newButtons[2].status = "incorrect";
         }
 
-        if (correct) {
-            console.log(correct);
+        if (secondResult === secondSolution) {
+            newButtons[3].status = "correct";
+            newButtons[4].status = "correct";
+            newButtons[5].status = "correct";
         } else {
-            console.log(correct);
+            newButtons[3].status = "incorrect";
+            newButtons[4].status = "incorrect";
+            newButtons[5].status = "incorrect";
         }
+
+        if (thirdResult === thirdSolution) {
+            newButtons[6].status = "correct";
+            newButtons[7].status = "correct";
+            newButtons[8].status = "correct";
+        } else {
+            newButtons[6].status = "incorrect";
+            newButtons[7].status = "incorrect";
+            newButtons[8].status = "incorrect";
+        }
+
+        setButtons(newButtons);
+
+        setTimeout(() => {
+            const resetButtons = [...newButtons];
+            resetButtons.forEach((button) => {
+                button.status = "neutral";
+            });
+            setButtons(resetButtons);
+        }, 1000);
+    };
+
+    const getButtonClass = (
+        status: "correct" | "incorrect" | "neutral" | "clicked"
+    ) => {
+        if (status === "correct") return `${styles.button} ${styles.green}`;
+        if (status === "incorrect") return `${styles.button} ${styles.red}`;
+        if (status === "clicked") return `${styles.button} ${styles.black}`;
+        return `${styles.button} ${styles.gray}`;
+    };
+
+    const handleGiveUp = () => {
+        setIsSolutionVisible(true);
     };
 
     return (
@@ -117,9 +250,7 @@ function Game() {
             <div className={styles.grid}>
                 <button
                     key={0}
-                    className={`${styles.numberButton} ${
-                        selectedIndex === 0 ? styles.selected : ""
-                    }`}
+                    className={getButtonClass(buttons[0].status)}
                     onClick={() => handleClick(0)}
                 >
                     <p className={styles.buttonText}>{allNumbers[0]}</p>
@@ -129,9 +260,7 @@ function Game() {
                 </p>
                 <button
                     key={1}
-                    className={`${styles.numberButton} ${
-                        selectedIndex === 1 ? styles.selected : ""
-                    }`}
+                    className={getButtonClass(buttons[1].status)}
                     onClick={() => handleClick(1)}
                 >
                     <p className={styles.buttonText}>{allNumbers[1]}</p>
@@ -141,9 +270,7 @@ function Game() {
                 </p>
                 <button
                     key={2}
-                    className={`${styles.numberButton} ${
-                        selectedIndex === 2 ? styles.selected : ""
-                    }`}
+                    className={getButtonClass(buttons[2].status)}
                     onClick={() => handleClick(2)}
                 >
                     <p className={styles.buttonText}>{allNumbers[2]}</p>
@@ -154,9 +281,7 @@ function Game() {
             <div className={styles.grid}>
                 <button
                     key={3}
-                    className={`${styles.numberButton} ${
-                        selectedIndex === 3 ? styles.selected : ""
-                    }`}
+                    className={getButtonClass(buttons[3].status)}
                     onClick={() => handleClick(3)}
                 >
                     <p className={styles.buttonText}>{allNumbers[3]}</p>
@@ -166,9 +291,7 @@ function Game() {
                 </p>
                 <button
                     key={4}
-                    className={`${styles.numberButton} ${
-                        selectedIndex === 4 ? styles.selected : ""
-                    }`}
+                    className={getButtonClass(buttons[4].status)}
                     onClick={() => handleClick(4)}
                 >
                     <p className={styles.buttonText}>{allNumbers[4]}</p>
@@ -178,9 +301,7 @@ function Game() {
                 </p>
                 <button
                     key={5}
-                    className={`${styles.numberButton} ${
-                        selectedIndex === 5 ? styles.selected : ""
-                    }`}
+                    className={getButtonClass(buttons[5].status)}
                     onClick={() => handleClick(5)}
                 >
                     <p className={styles.buttonText}>{allNumbers[5]}</p>
@@ -191,9 +312,7 @@ function Game() {
             <div className={styles.grid}>
                 <button
                     key={6}
-                    className={`${styles.numberButton} ${
-                        selectedIndex === 6 ? styles.selected : ""
-                    }`}
+                    className={getButtonClass(buttons[6].status)}
                     onClick={() => handleClick(6)}
                 >
                     <p className={styles.buttonText}>{allNumbers[6]}</p>
@@ -203,9 +322,7 @@ function Game() {
                 </p>
                 <button
                     key={7}
-                    className={`${styles.numberButton} ${
-                        selectedIndex === 7 ? styles.selected : ""
-                    }`}
+                    className={getButtonClass(buttons[7].status)}
                     onClick={() => handleClick(7)}
                 >
                     <p className={styles.buttonText}>{allNumbers[7]}</p>
@@ -215,9 +332,7 @@ function Game() {
                 </p>
                 <button
                     key={8}
-                    className={`${styles.numberButton} ${
-                        selectedIndex === 8 ? styles.selected : ""
-                    }`}
+                    className={getButtonClass(buttons[8].status)}
                     onClick={() => handleClick(8)}
                 >
                     <p className={styles.buttonText}>{allNumbers[8]}</p>
@@ -226,6 +341,22 @@ function Game() {
                 <p className={styles.operator}>{problems?.[2]?.result}</p>
             </div>
             <button onClick={() => handleCheck()}>Check</button>
+            <button onClick={() => handleGiveUp()}>Give up</button>
+            {isSolutionVisible && (
+                <div className={styles.solutionContainer}>
+                    <button>Show solution</button>
+                    <button>Back</button>
+                    {problems.map((problem, index) => (
+                        <div key={index}>
+                            <p>
+                                {problem.num1} {problem.operator1}{" "}
+                                {problem.num2} {problem.operator2}{" "}
+                                {problem.num3} = {problem.result}
+                            </p>
+                        </div>
+                    ))}
+                </div>
+            )}
             <h2>How to play?</h2>
             <p>Game instructions</p>
             <h2>About the Numzzle</h2>
