@@ -12,12 +12,28 @@
     display: grid;
     width: 25%;
     grid-template-columns: repeat(7, 1fr);
-    align-items: center;
+    justify-content: center;
+    align-content: center;
     text-align: center;
-    padding: 10px;
+    padding: 6px;
+    padding-left: 50px;
 }
 
-.gridItem {
+.grid > p:last-child {
+    text-align: left;
+}
+
+.operator {
+    font-size: 30px;
+}
+
+.numberButton.selected {
+    border: 2px solid black;
+    color: black;
+    font-weight: 600;
+}
+
+.numberButton {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -26,12 +42,5 @@
     background-color: white;
     border: 2px solid grey;
     border-radius: 10px;
-}
-
-.buttonText {
-    font-size: 30px;
-}
-
-.operator {
     font-size: 30px;
 }

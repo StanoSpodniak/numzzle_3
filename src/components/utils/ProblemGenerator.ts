@@ -20,3 +20,7 @@ export const getMathProblem = (): {
 
     return { num1, num2, num3, operator1, operator2, result };
 };
+
+export const shuffleArray = (array: number[]) => {
+    return array.sort(() => Math.random() - 0.5);
+};
