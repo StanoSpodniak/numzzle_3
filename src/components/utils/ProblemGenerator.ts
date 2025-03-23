@@ -18,9 +18,9 @@ export const getMathProblem = (): {
         operator2 = operators1[Math.floor(Math.random() * operators2.length)];
     }
 
-    const num1 = Math.floor(Math.random() * 21);
-    const num2 = Math.floor(Math.random() * 21);
-    const num3 = Math.floor(Math.random() * 21);
+    const num1 = Math.floor(Math.random() * 21) + 1;
+    const num2 = Math.floor(Math.random() * 21) + 1;
+    const num3 = Math.floor(Math.random() * 21) + 1;
 
     const result = eval(num1 + operator1 + num2 + operator2 + num3);
 

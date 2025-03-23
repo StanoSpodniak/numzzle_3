@@ -4,6 +4,7 @@ import { getMathProblem, shuffleArray } from "./utils/ProblemGenerator";
 
 //check Dev.to
 //https://kadam.net/en/webmaster - ads
+//mobile phones optimalization
 
 function Game() {
     const [problems, setProblems] = useState<
@@ -97,6 +98,10 @@ function Game() {
     const [gameText, setGameText] = useState("");
     const [checkButtonText, setCheckButtonText] = useState("Check");
 
+    const [isShowSolutionButtonVisible, setIsShowSolutionButtonVisible] =
+        useState(true);
+    const [isGiveUpConfirmationVisible, setIsGiveUpConfirmationVisible] =
+        useState(false);
     const [isSolutionVisible, setIsSolutionVisible] = useState(false);
 
     // Generate random math problem when the component is mounted
@@ -166,86 +171,88 @@ function Game() {
     };
 
     const handleCheck = () => {
-        const firstSolution = problems[0].result;
-        const firstResult = eval(
-            allNumbers[0] +
-                problems[0].operator1 +
-                allNumbers[1] +
-                problems[0].operator2 +
-                allNumbers[2]
-        );
+        if (checkButtonText === "Check") {
+            const firstSolution = problems[0].result;
+            const firstResult = eval(
+                allNumbers[0] +
+                    problems[0].operator1 +
+                    allNumbers[1] +
+                    problems[0].operator2 +
+                    allNumbers[2]
+            );
 
-        const secondSolution = problems[1].result;
-        const secondResult = eval(
-            allNumbers[3] +
-                problems[1].operator1 +
-                allNumbers[4] +
-                problems[1].operator2 +
-                allNumbers[5]
-        );
+            const secondSolution = problems[1].result;
+            const secondResult = eval(
+                allNumbers[3] +
+                    problems[1].operator1 +
+                    allNumbers[4] +
+                    problems[1].operator2 +
+                    allNumbers[5]
+            );
 
-        const thirdSolution = problems[2].result;
-        const thirdResult = eval(
-            allNumbers[6] +
-                problems[2].operator1 +
-                allNumbers[7] +
-                problems[2].operator2 +
-                allNumbers[8]
-        );
+            const thirdSolution = problems[2].result;
+            const thirdResult = eval(
+                allNumbers[6] +
+                    problems[2].operator1 +
+                    allNumbers[7] +
+                    problems[2].operator2 +
+                    allNumbers[8]
+            );
 
-        const newButtons = [...buttons];
+            const newButtons = [...buttons];
 
-        if (firstResult === firstSolution) {
-            newButtons[0].status = "correct";
-            newButtons[1].status = "correct";
-            newButtons[2].status = "correct";
-        } else {
-            newButtons[0].status = "incorrect";
-            newButtons[1].status = "incorrect";
-            newButtons[2].status = "incorrect";
-        }
+            if (firstResult === firstSolution) {
+                newButtons[0].status = "correct";
+                newButtons[1].status = "correct";
+                newButtons[2].status = "correct";
+            } else {
+                newButtons[0].status = "incorrect";
+                newButtons[1].status = "incorrect";
+                newButtons[2].status = "incorrect";
+            }
 
-        if (secondResult === secondSolution) {
-            newButtons[3].status = "correct";
-            newButtons[4].status = "correct";
-            newButtons[5].status = "correct";
-        } else {
-            newButtons[3].status = "incorrect";
-            newButtons[4].status = "incorrect";
-            newButtons[5].status = "incorrect";
-        }
+            if (secondResult === secondSolution) {
+                newButtons[3].status = "correct";
+                newButtons[4].status = "correct";
+                newButtons[5].status = "correct";
+            } else {
+                newButtons[3].status = "incorrect";
+                newButtons[4].status = "incorrect";
+                newButtons[5].status = "incorrect";
+            }
 
-        if (thirdResult === thirdSolution) {
-            newButtons[6].status = "correct";
-            newButtons[7].status = "correct";
-            newButtons[8].status = "correct";
-        } else {
-            newButtons[6].status = "incorrect";
-            newButtons[7].status = "incorrect";
-            newButtons[8].status = "incorrect";
-        }
+            if (thirdResult === thirdSolution) {
+                newButtons[6].status = "correct";
+                newButtons[7].status = "correct";
+                newButtons[8].status = "correct";
+            } else {
+                newButtons[6].status = "incorrect";
+                newButtons[7].status = "incorrect";
+                newButtons[8].status = "incorrect";
+            }
 
-        setButtons(newButtons);
+            setButtons(newButtons);
 
-        if (
-            firstResult === firstSolution &&
-            secondResult === secondSolution &&
-            thirdResult === thirdSolution
-        ) {
-            setGameText("Correct!");
-            setCheckButtonText("New Game");
-        } else {
-            setTimeout(() => {
-                const resetButtons = [...newButtons];
-                resetButtons.forEach((button) => {
-                    button.status = "neutral";
-                });
-                setButtons(resetButtons);
-            }, 1000);
+            if (
+                firstResult === firstSolution &&
+                secondResult === secondSolution &&
+                thirdResult === thirdSolution
+            ) {
+                setGameText("Correct!");
+                setCheckButtonText("New Game");
+            } else {
+                setTimeout(() => {
+                    const resetButtons = [...newButtons];
+                    resetButtons.forEach((button) => {
+                        button.status = "neutral";
+                    });
+                    setButtons(resetButtons);
+                }, 1000);
+            }
         }
 
         setTimeout(() => {}, 1000);
-        if (gameText === "Correct!") {
+        if (checkButtonText === "New Game") {
             setTimeout(() => {
                 window.location.reload();
             }, 1000);
@@ -262,7 +269,22 @@ function Game() {
     };
 
     const handleGiveUp = () => {
+        setIsShowSolutionButtonVisible(false);
+        setIsGiveUpConfirmationVisible(true);
+        setIsSolutionVisible(false);
+    };
+
+    const handleGiveUpConfirmation = () => {
+        setIsShowSolutionButtonVisible(false);
+        setIsGiveUpConfirmationVisible(false);
         setIsSolutionVisible(true);
+        setCheckButtonText("New Game");
+    };
+
+    const handleGoBack = () => {
+        setIsShowSolutionButtonVisible(true);
+        setIsGiveUpConfirmationVisible(false);
+        setIsSolutionVisible(false);
     };
 
     return (
@@ -369,17 +391,27 @@ function Game() {
             >
                 {checkButtonText}
             </button>
-            <button
-                className={styles.giveUpButton}
-                onClick={() => handleGiveUp()}
-            >
-                Show solution
-            </button>
-            {isSolutionVisible && (
+            {isShowSolutionButtonVisible && (
+                <div>
+                    <button
+                        className={styles.giveUpButton}
+                        onClick={() => handleGiveUp()}
+                    >
+                        Show solution
+                    </button>
+                </div>
+            )}
+            {isGiveUpConfirmationVisible && (
                 <div className={styles.solutionContainer}>
                     <p>Do you really want to show the solution?</p>
-                    <button>YES</button>
-                    <button>NO</button>
+                    <button onClick={() => handleGiveUpConfirmation()}>
+                        YES
+                    </button>
+                    <button onClick={() => handleGoBack()}>NO</button>
+                </div>
+            )}
+            {isSolutionVisible && (
+                <div>
                     {problems.map((problem, index) => (
                         <div key={index}>
                             <p>
