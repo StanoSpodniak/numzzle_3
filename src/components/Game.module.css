@@ -47,7 +47,7 @@
 
 .button:hover {
     cursor: pointer;
-    border: 2px solid gray;
+    border: 2px solid grey;
 }
 
 .green {
@@ -98,4 +98,10 @@
 .giveUpButton:hover {
     cursor: pointer;
     color: black;
+}
+
+@media (max-width: 768px) {
+    .button:hover {
+        border: 2px solid lightgrey;
+    }
 }
