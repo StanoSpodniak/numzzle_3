@@ -4,8 +4,6 @@ import { getMathProblem, shuffleArray } from "./utils/ProblemGenerator";
 
 //check Dev.to
 //https://kadam.net/en/webmaster - ads
-//add give up functionality
-//add new game functionality give up button will change to new game button
 
 function Game() {
     const [problems, setProblems] = useState<
@@ -96,6 +94,9 @@ function Game() {
         },
     ]);
 
+    const [gameText, setGameText] = useState("");
+    const [checkButtonText, setCheckButtonText] = useState("Check");
+
     const [isSolutionVisible, setIsSolutionVisible] = useState(false);
 
     // Generate random math problem when the component is mounted
@@ -126,37 +127,41 @@ function Game() {
     }, []);
 
     const handleClick = (index: number) => {
-        if (selectedIndex === null) {
-            // If no number is selected, set the first one as selected
-            setSelectedIndex(index);
+        if (gameText != "Correct!") {
+            if (selectedIndex === null) {
+                // If no number is selected, set the first one as selected
+                setSelectedIndex(index);
 
-            // Highlight selected number
-            const newButtons = [...buttons];
-            newButtons[index].status = "clicked";
-            setButtons(newButtons);
-        } else {
-            // Swap the numbers when two indices are selected
-            const newNumbers = [...allNumbers];
-            const temp = newNumbers[selectedIndex];
-            newNumbers[selectedIndex] = newNumbers[index];
-            newNumbers[index] = temp;
+                // Highlight selected number
+                const newButtons = [...buttons];
+                newButtons[index].status = "clicked";
+                setButtons(newButtons);
+            } else {
+                // Swap the numbers when two indices are selected
+                const newNumbers = [...allNumbers];
+                const temp = newNumbers[selectedIndex];
+                newNumbers[selectedIndex] = newNumbers[index];
+                newNumbers[index] = temp;
 
-            // Highlight second selected number
-            const newButtons = [...buttons];
-            newButtons[index].status = "clicked";
-            setButtons(newButtons);
+                // Highlight second selected number
+                const newButtons = [...buttons];
+                newButtons[index].status = "clicked";
+                setButtons(newButtons);
 
-            setAllNumbers(newNumbers);
-            setSelectedIndex(null); // Reset selected index after swap
+                setAllNumbers(newNumbers);
 
-            // Undo selected number highlight
-            const resetButtons = [...buttons];
-            setTimeout(() => {
-                resetButtons.forEach((button) => {
-                    button.status = "neutral";
-                });
-                setButtons(resetButtons);
-            }, 250);
+                // Reset selected index after swap
+                setSelectedIndex(null);
+
+                // Undo selected number highlight
+                const resetButtons = [...buttons];
+                setTimeout(() => {
+                    resetButtons.forEach((button) => {
+                        button.status = "neutral";
+                    });
+                    setButtons(resetButtons);
+                }, 250);
+            }
         }
     };
 
@@ -222,13 +227,29 @@ function Game() {
 
         setButtons(newButtons);
 
-        setTimeout(() => {
-            const resetButtons = [...newButtons];
-            resetButtons.forEach((button) => {
-                button.status = "neutral";
-            });
-            setButtons(resetButtons);
-        }, 1000);
+        if (
+            firstResult === firstSolution &&
+            secondResult === secondSolution &&
+            thirdResult === thirdSolution
+        ) {
+            setGameText("Correct!");
+            setCheckButtonText("New Game");
+        } else {
+            setTimeout(() => {
+                const resetButtons = [...newButtons];
+                resetButtons.forEach((button) => {
+                    button.status = "neutral";
+                });
+                setButtons(resetButtons);
+            }, 1000);
+        }
+
+        setTimeout(() => {}, 1000);
+        if (gameText === "Correct!") {
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
     };
 
     const getButtonClass = (
@@ -246,7 +267,9 @@ function Game() {
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>Numzzle</h1>
+            <div className={styles.gameTextContainer}>
+                <h2 className={styles.gameText}>{gameText}</h2>
+            </div>
             <div className={styles.grid}>
                 <button
                     key={0}
@@ -340,12 +363,23 @@ function Game() {
                 <p className={styles.operator}>=</p>
                 <p className={styles.operator}>{problems?.[2]?.result}</p>
             </div>
-            <button onClick={() => handleCheck()}>Check</button>
-            <button onClick={() => handleGiveUp()}>Give up</button>
+            <button
+                className={styles.checkButton}
+                onClick={() => handleCheck()}
+            >
+                {checkButtonText}
+            </button>
+            <button
+                className={styles.giveUpButton}
+                onClick={() => handleGiveUp()}
+            >
+                Show solution
+            </button>
             {isSolutionVisible && (
                 <div className={styles.solutionContainer}>
-                    <button>Show solution</button>
-                    <button>Back</button>
+                    <p>Do you really want to show the solution?</p>
+                    <button>YES</button>
+                    <button>NO</button>
                     {problems.map((problem, index) => (
                         <div key={index}>
                             <p>

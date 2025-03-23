@@ -4,19 +4,24 @@
     align-items: center;
 }
 
-.title {
-    color: grey;
+.gameTextContainer {
+    display: flex;
+    align-items: center;
+    height: 100px;
+}
+
+.gameText {
+    font-size: 30px;
+    color: #00ff00;
 }
 
 .grid {
     display: grid;
     width: 25%;
     grid-template-columns: repeat(7, 1fr);
-    justify-content: center;
-    align-content: center;
     text-align: center;
     padding: 6px;
-    padding-left: 50px;
+    padding-left: 60px;
 }
 
 .grid > p:last-child {
@@ -25,6 +30,7 @@
 
 .operator {
     font-size: 30px;
+    align-content: center;
 }
 
 .button {
@@ -35,13 +41,23 @@
     height: 80px;
     background-color: white;
     border: 2px solid lightgrey;
-    border-radius: 6px;
+    border-radius: 4px;
     font-size: 30px;
+}
+
+.button:hover {
+    cursor: pointer;
+    border: 2px solid gray;
 }
 
 .green {
     color: #00ff00;
     border: 2px solid #00ff00;
+}
+
+.green:hover {
+    border: 2px solid #00ff00;
+    cursor: default;
 }
 
 .red {
@@ -50,7 +66,36 @@
 }
 
 .black {
+    border: 2px solid black !important;
+}
+
+.checkButton {
+    margin-top: 60px;
+    padding: 10px;
+    width: 175px;
+    background-color: white;
+    font-size: 30px;
+    border: 2px solid lightgray;
+    border-radius: 6px;
+}
+
+.checkButton:hover {
+    cursor: pointer;
+    border: 2px solid grey;
+}
+
+.giveUpButton {
+    margin: 60px auto;
+    width: 175px;
+    height: 40px;
+    background-color: white;
+    font-size: 24px;
+    border: 2px solid lightgray;
+    border-radius: 6px;
+    color: gray;
+}
+
+.giveUpButton:hover {
+    cursor: pointer;
     color: black;
-    border: 2px solid black;
-    font-weight: 600;
 }
