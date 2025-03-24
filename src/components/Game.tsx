@@ -6,6 +6,12 @@ import { getMathProblem, shuffleArray } from "./utils/ProblemGenerator";
 //https://kadam.net/en/webmaster - ads
 //mobile phones optimalization
 
+//v ďalšej hre sa zobrazí dlhé anglické slovo s poprehadzovanými písmenami a hráč ich pomocou draging bude musieť zoradiť
+//na mobiloch nebudú všetky písmená vedľa seba; súčasné slovo sa bude priebežne meniť v hornej časti obrazovky
+//urobiť databázu bežných dlhých anglických slov
+//vužiť doménu encyclopy.com
+//urobiť to v next.js
+
 function Game() {
     const [problems, setProblems] = useState<
         Array<{
@@ -392,7 +398,7 @@ function Game() {
                 {checkButtonText}
             </button>
             {isShowSolutionButtonVisible && (
-                <div>
+                <div className={styles.giveUpContainer}>
                     <button
                         className={styles.giveUpButton}
                         onClick={() => handleGiveUp()}
@@ -402,16 +408,18 @@ function Game() {
                 </div>
             )}
             {isGiveUpConfirmationVisible && (
-                <div className={styles.solutionContainer}>
+                <div className={styles.giveUpCheckContainer}>
                     <p>Do you really want to show the solution?</p>
-                    <button onClick={() => handleGiveUpConfirmation()}>
-                        YES
-                    </button>
-                    <button onClick={() => handleGoBack()}>NO</button>
+                    <div className={styles.giveUpButtonsContainer}>
+                        <button onClick={() => handleGiveUpConfirmation()}>
+                            YES
+                        </button>
+                        <button onClick={() => handleGoBack()}>NO</button>
+                    </div>
                 </div>
             )}
             {isSolutionVisible && (
-                <div>
+                <div className={styles.solutionContainer}>
                     {problems.map((problem, index) => (
                         <div key={index}>
                             <p>
@@ -423,10 +431,6 @@ function Game() {
                     ))}
                 </div>
             )}
-            <h2>How to play?</h2>
-            <p>Game instructions</p>
-            <h2>About the Numzzle</h2>
-            <p>Game description</p>
         </div>
     );
 }
