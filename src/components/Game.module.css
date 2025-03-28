@@ -7,7 +7,7 @@
 .gameTextContainer {
     display: flex;
     align-items: center;
-    height: 100px;
+    height: 80px;
 }
 
 .gameText {
@@ -27,11 +27,11 @@
 .grid > p:last-child {
     margin-left: -10px;
     text-align: left;
-    font-size: 34px;
+    font-size: 30px;
 }
 
 .operator {
-    font-size: 34px;
+    font-size: 30px;
     align-content: center;
 }
 
@@ -44,7 +44,7 @@
     background-color: white;
     border: 2px solid lightgrey;
     border-radius: 4px;
-    font-size: 34px;
+    font-size: 30px;
 }
 
 .button:hover {
@@ -76,7 +76,7 @@
     padding: 10px;
     width: 175px;
     background-color: white;
-    font-size: 30px;
+    font-size: 28px;
     border: 2px solid lightgray;
     border-radius: 6px;
 }
@@ -160,9 +160,13 @@
 }
 
 @media (max-width: 767px) {
+    .gameTextContainer {
+        height: 80px;
+    }
+
     .grid {
         width: 85%;
-        padding: 6px;
+        padding: 12px 6px;
         padding-left: 20px;
     }
 
