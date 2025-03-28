@@ -1,5 +1,11 @@
 .headerContainer {
     text-align: center;
-    padding: 20px;
+    padding-top: 20px;
+    padding-bottom: 10px;
     border-bottom: 1px solid lightgray;
+}
+
+.headerContainer a {
+    text-decoration: none;
+    color: black;
 }
