@@ -6,8 +6,9 @@
 
 .gameTextContainer {
     display: flex;
-    align-items: center;
-    height: 80px;
+    height: 70px;
+    align-items: end;
+    padding-bottom: 10px;
 }
 
 .gameText {
@@ -161,7 +162,13 @@
 
 @media (max-width: 767px) {
     .gameTextContainer {
-        height: 80px;
+        height: 60px;
+        align-items: end;
+        padding-bottom: 4px;
+    }
+
+    .gameText {
+        font-size: 26px;
     }
 
     .grid {
