@@ -12,6 +12,8 @@ import { getMathProblem, shuffleArray } from "./utils/ProblemGenerator";
 //vužiť doménu encyclopy.com
 //urobiť to v next.js
 
+//urobiť funkcionalitu, že sa čísla uložia a bude možné pokračovať po zatvorení browsera
+
 function Game() {
     const [problems, setProblems] = useState<
         Array<{
