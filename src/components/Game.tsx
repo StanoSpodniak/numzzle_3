@@ -13,6 +13,7 @@ import { getMathProblem, shuffleArray } from "./utils/ProblemGenerator";
 //urobiť to v next.js
 
 //urobiť funkcionalitu, že sa čísla uložia a bude možné pokračovať po zatvorení browsera
+//vybrať zaujímavejší font pre čísla, možno taký ako v nummzle
 
 function Game() {
     const [problems, setProblems] = useState<
