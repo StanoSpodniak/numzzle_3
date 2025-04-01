@@ -78,14 +78,13 @@
     width: 175px;
     background-color: white;
     font-size: 26px;
-    border: 2px solid #8fbc8f;
+    border: 2px solid lightgrey;
     border-radius: 6px;
 }
 
 .checkButton:hover {
     cursor: pointer;
     border: 2px solid #228b22;
-    background-color: #fafffa;
 }
 
 .giveUpContainer {
